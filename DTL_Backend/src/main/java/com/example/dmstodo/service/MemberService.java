@@ -3,7 +3,7 @@ package com.example.dmstodo.service;
 
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
-import com.example.dmstodo.controller.dto.MemberSignUpDto;
+import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
 import com.example.dmstodo.domain.Member;
 import com.example.dmstodo.domain.MemberRepository;
 import com.example.dmstodo.domain.Role;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -51,12 +52,15 @@ public class MemberService {
                 .build();
     }
 
-    public MemberSignUpDto findMember(String uid){
-        Member member = memberRepository.findByUserId(uid).orElseThrow(UserNotFoundException::new);
+    public MemberSignUpDto findMember(Principal principal){
+        /*Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uid = obj.getUsername();
+*/
+        Member member = memberRepository.findByUserId(principal.getName()).orElseThrow(UserNotFoundException::new);
         return MemberSignUpDto.builder()
                 .userId(member.getUserId())
                 .userAge(member.getUserAge())
                 .role(member.getUserRole())
-                .userName(member.getUsername()).build();
+                .userName(member.getUserName()).build();
     }
 }

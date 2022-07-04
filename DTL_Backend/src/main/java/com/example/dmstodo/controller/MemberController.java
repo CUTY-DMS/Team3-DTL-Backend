@@ -4,14 +4,14 @@ package com.example.dmstodo.controller;
 
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
-import com.example.dmstodo.controller.dto.MemberSignUpDto;
+import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
 import com.example.dmstodo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,10 +29,8 @@ public class MemberController {
         return memberService.login(req);
     }
     @GetMapping("/my")
-    public MemberSignUpDto myPage(Authentication authentication){
-        if(authentication == null){
-            throw new RuntimeException("cant find user");
-        }
-        return memberService.findMember(authentication.getName());
+    @ResponseBody
+    public String myPage(Principal principal){
+        return principal.getName();
     }
 }
