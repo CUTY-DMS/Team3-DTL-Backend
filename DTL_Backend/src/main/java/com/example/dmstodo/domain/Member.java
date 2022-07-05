@@ -9,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -38,5 +36,8 @@ public class Member {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role userRole;
+
+    @OneToMany(mappedBy = "member")
+    private List<Todo> todos = new ArrayList<>();
 
 }
