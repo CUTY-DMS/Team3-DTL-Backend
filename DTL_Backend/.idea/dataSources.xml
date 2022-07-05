@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="dmstodo@localhost" uuid="e3e8c530-f360-42ef-917b-ea9b2903f42c">
+    <data-source source="LOCAL" name="dmsTodo@localhost" uuid="3415a706-3af1-4115-9f66-87cfb4490eb9">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/dmstodo</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="dmstodo@localhost [2]" uuid="f2b69f18-13dd-4e04-993e-f763d670943e">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/dmstodo</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/dmsTodo</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

@@ -8,6 +8,7 @@ import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
 import com.example.dmstodo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,9 @@ public class MemberController {
         return memberService.login(req);
     }
     @GetMapping("/my")
-    @ResponseBody
-    public String myPage(Principal principal){
-        return principal.getName();
+    public String myPage(Authentication authentication){
+
+        return authentication.getName();
     }
+
 }
