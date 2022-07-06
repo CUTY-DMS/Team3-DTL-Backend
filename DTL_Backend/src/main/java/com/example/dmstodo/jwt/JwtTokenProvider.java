@@ -52,7 +52,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest req) { //요청의 헤더에서 x-auth-token(클라의 토큰)에 있는 값을 리턴한다.
-        return req.getHeader("X-AUTH-TOKEN");
+        return req.getHeader("Authentication");
     }
     public boolean validateToken(String jwtToken) { //토큰 유효성 검사
         try {
