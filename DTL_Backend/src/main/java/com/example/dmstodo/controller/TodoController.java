@@ -2,6 +2,7 @@ package com.example.dmstodo.controller;
 
 
 import com.example.dmstodo.controller.dto.req.TodoReqDto;
+import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.Todo;
 import com.example.dmstodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    private void makeTodo(@RequestBody TodoReqDto req, Principal principal){
+    private TodoResDto makeTodo(@RequestBody TodoReqDto req, Principal principal){
         System.out.println(principal.getName());
         return todoService.makeTodo(req, principal.getName());
     }

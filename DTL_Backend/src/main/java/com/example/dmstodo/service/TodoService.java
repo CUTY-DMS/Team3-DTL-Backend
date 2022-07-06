@@ -1,6 +1,7 @@
 package com.example.dmstodo.service;
 
 import com.example.dmstodo.controller.dto.req.TodoReqDto;
+import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.MemberRepository;
 import com.example.dmstodo.domain.ToDoRepostiory;
 import com.example.dmstodo.domain.Todo;
@@ -16,7 +17,7 @@ public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
     private final MemberRepository memberRepository;
 
-    public void makeTodo(TodoReqDto req, String userId) {
+    public TodoResDto makeTodo(TodoReqDto req, String userId) {
         toDoRepostiory.save(
                 Todo.builder()
                         .title(req.getTitle())
@@ -26,6 +27,9 @@ public class TodoService {
                         ))
                         .build()
         );
+        return TodoResDto.builder()
+                .msg("Todo이름 : " + req.getTitle() + "db추가 완료")
+                .build();
     }
 
     public Todo getPost(String todoId) {
