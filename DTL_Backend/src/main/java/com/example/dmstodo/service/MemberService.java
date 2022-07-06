@@ -4,6 +4,7 @@ package com.example.dmstodo.service;
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
 import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
+import com.example.dmstodo.controller.dto.res.MyPageResDto;
 import com.example.dmstodo.domain.Member;
 import com.example.dmstodo.domain.MemberRepository;
 import com.example.dmstodo.domain.Role;
@@ -52,7 +53,13 @@ public class MemberService {
                 .build();
     }
 
-    public Optional<Member> findMember(String memberId) {
-        return memberRepository.findByUserId(memberId);
+    public MyPageResDto findMember(String memberId) {
+        return memberRepository.findByUserId(memberId)
+                .map(a -> MyPageResDto.builder()
+                        .userName(a.getUserName())
+                        .userAge(a.getUserAge())
+                        .userId(a.getUserId())
+                        .build())
+                .orElseThrow(UserNotFoundException :: new);
     }
 }
