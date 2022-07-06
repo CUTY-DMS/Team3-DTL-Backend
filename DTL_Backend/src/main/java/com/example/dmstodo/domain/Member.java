@@ -25,7 +25,7 @@ public class Member {
     private String userName;
 
     @Column(nullable = false)
-    private Long userAge;
+    private int userAge;
 
     @Column(nullable = false)
     private String userId;
@@ -38,6 +38,6 @@ public class Member {
     private Role userRole;
 
     @OneToMany(mappedBy = "member")
-    private List<Todo> todos = new ArrayList<>();
+    private List<Todo> todos;
 
 }

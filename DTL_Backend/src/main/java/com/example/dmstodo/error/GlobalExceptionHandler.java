@@ -1,5 +1,6 @@
-package com.example.dmstodo.exception;
+package com.example.dmstodo.error;
 
+import com.example.dmstodo.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

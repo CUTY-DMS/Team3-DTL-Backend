@@ -5,14 +5,15 @@ package com.example.dmstodo.controller;
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
 import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
+import com.example.dmstodo.domain.Member;
 import com.example.dmstodo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ import java.security.Principal;
 public class MemberController {
     private final MemberService memberService;
     @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public MemberResDto signup(@Validated @RequestBody MemberSignUpDto req){
         System.out.println(req.getUserPw() + " " + req.getUserId());
         return memberService.signup(req);
@@ -30,9 +31,9 @@ public class MemberController {
         return memberService.login(req);
     }
     @GetMapping("/my")
-    public String myPage(Authentication authentication){
-
-        return authentication.getName();
+    @ResponseBody
+    public Optional<Member> myPage(Principal principal){
+        return memberService.findMember(principal.getName());
     }
 
 }

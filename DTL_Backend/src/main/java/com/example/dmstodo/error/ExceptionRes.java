@@ -1,4 +1,4 @@
-package com.example.dmstodo.exception;
+package com.example.dmstodo.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.example.dmstodo.exception;
 
+import com.example.dmstodo.error.ErrorCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 
 @Getter

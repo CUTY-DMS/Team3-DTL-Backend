@@ -21,7 +21,7 @@ public class MemberSignUpDto {
     @NotNull
     @Min(value = 1)
     @Max(value = 120)
-    private Long userAge;
+    private int userAge;
 
     @NotBlank
     @Size(max = 10)

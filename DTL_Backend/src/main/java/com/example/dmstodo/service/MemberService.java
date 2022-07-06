@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,15 +52,7 @@ public class MemberService {
                 .build();
     }
 
-    public MemberSignUpDto findMember(Principal principal){
-        /*Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String uid = obj.getUsername();
-*/
-        Member member = memberRepository.findByUserId(principal.getName()).orElseThrow(UserNotFoundException::new);
-        return MemberSignUpDto.builder()
-                .userId(member.getUserId())
-                .userAge(member.getUserAge())
-                .role(member.getUserRole())
-                .userName(member.getUserName()).build();
+    public Optional<Member> findMember(String memberId) {
+        return memberRepository.findByUserId(memberId);
     }
 }
