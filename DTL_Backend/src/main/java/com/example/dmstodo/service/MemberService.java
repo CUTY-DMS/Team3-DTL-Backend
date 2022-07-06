@@ -14,8 +14,6 @@ import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -40,7 +38,7 @@ public class MemberService {
                 .name(req.getUserName())
                 .build();
     }
-    public MemberResDto login(@Valid MemberSignInDto req) {
+    public MemberResDto login(MemberSignInDto req) {
         Member member = memberRepository.findByUserId(req.getUserId())
                 .orElseThrow(UserNotFoundException::new);
         if(!passwordEncoder.matches(req.getUserPw(), member.getUserPw())) {
