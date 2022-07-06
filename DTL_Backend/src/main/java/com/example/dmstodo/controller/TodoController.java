@@ -7,7 +7,7 @@ import com.example.dmstodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/post")
@@ -17,12 +17,13 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    private void makeTodo(@RequestBody TodoReqDto req){
-        todoService.makeTodo(req);
+    private void makeTodo(@RequestBody TodoReqDto req, Principal principal){
+        System.out.println(principal.getName());
+        return todoService.makeTodo(req, principal.getName());
     }
 
-    @GetMapping("/{id}")
-    public Optional<Todo> getPost(@PathVariable Long id){
-        return todoService.getPost(id);
+    @GetMapping
+    public Todo getPost(@RequestParam String todoName){
+        return todoService.getPost(todoName);
     }
 }
