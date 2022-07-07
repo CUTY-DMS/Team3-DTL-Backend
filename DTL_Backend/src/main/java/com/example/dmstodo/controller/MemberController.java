@@ -34,5 +34,8 @@ public class MemberController {
     public MyPageResDto myPage(Principal principal){
         return memberService.findMember(principal.getName());
     }
-
+    @GetMapping("/admin")
+    public Object findAllUsers() {
+        return memberService.findAllUsers();
+    }
 }

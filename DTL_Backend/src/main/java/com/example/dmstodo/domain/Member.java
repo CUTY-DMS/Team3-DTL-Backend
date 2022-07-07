@@ -1,5 +1,6 @@
 package com.example.dmstodo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,11 +34,12 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String userPw;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role userRole;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> userRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @JsonBackReference
     private List<Todo> todos;
 
 }

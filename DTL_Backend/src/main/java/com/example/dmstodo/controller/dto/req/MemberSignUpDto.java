@@ -2,7 +2,6 @@ package com.example.dmstodo.controller.dto.req;
 
 
 
-import com.example.dmstodo.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +29,4 @@ public class MemberSignUpDto {
     @NotBlank
     @Size(min=8, max=20)
     private String userPw;
-
-    private Role role;
 }
