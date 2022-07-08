@@ -1,6 +1,7 @@
 package com.example.dmstodo.service;
 
 
+import com.example.dmstodo.controller.MemberTodo;
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
 import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
@@ -17,6 +18,10 @@ import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -58,14 +63,23 @@ public class MemberService {
     }
 
     public MyPageResDto findMember(String memberId) {
-        return memberRepository.findByUserId(memberId)
-                .map(a -> MyPageResDto.builder()
-                        .userName(a.getUserName())
-                        .userAge(a.getUserAge())
-                        .userId(a.getUserId())
-//                        .todos(getTodo(a.getTodos()))
+        Member member = memberRepository.findByUserId(memberId)
+                .orElseThrow(UserNotFoundException::new);
+
+        List<MemberTodo> memberTodos = member.getTodos().stream()
+                .map(todo -> MemberTodo.builder()
+                        .title(todo.getTitle())
+                        .content(todo.getContents())
+                        .createdAt(todo.getCreatedAt())
                         .build())
-                .orElseThrow(UserNotFoundException :: new);
+                .collect(Collectors.toList());
+
+        return MyPageResDto.builder()
+                .userId(memberId)
+                .userAge(member.getUserAge())
+                .userName(member.getUserName())
+                .todos(memberTodos)
+                .build();
     }
 
     public Object findAllUsers() {
