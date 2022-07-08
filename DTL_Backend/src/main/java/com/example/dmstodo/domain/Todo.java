@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,8 +22,9 @@ public class Todo {
 
     private String title;
 
-    private Date createdAt;
+    private LocalDate createdAt;
 
+    private boolean isSuccess;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "member_id")

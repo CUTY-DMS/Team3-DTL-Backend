@@ -10,6 +10,7 @@ import com.example.dmstodo.exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,15 +20,16 @@ import java.util.stream.Collectors;
 public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
     private final MemberRepository memberRepository;
-
     public TodoResDto makeTodo(TodoReqDto req, String userId) {
         toDoRepostiory.save(
                 Todo.builder()
                         .title(req.getTitle())
-                        .contents(req.getContent())
+                        .contents(req.getContents())
                         .member(memberRepository.findByUserId(userId).orElseThrow(
                                 RuntimeException::new
                         ))
+                        .createdAt(LocalDate.now())
+                        .isSuccess(false)
                         .build()
         );
         return TodoResDto.builder()
