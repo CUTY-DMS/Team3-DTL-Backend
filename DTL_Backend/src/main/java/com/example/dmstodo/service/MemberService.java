@@ -13,10 +13,14 @@ import com.example.dmstodo.exception.UserAlreadyExistsExeption;
 import com.example.dmstodo.exception.UserNotFoundException;
 import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -33,6 +37,7 @@ public class MemberService {
                 .userPw(passwordEncoder.encode(req.getUserPw()))
                 .userRole(Roles.valueOf("ROLE_USER"))
                 .build());
+        log.info("sign up :" +req.getUserId());
         return MemberResDto.builder()
                 .message("회원가입 성공")
                 .name(req.getUserName())
@@ -44,6 +49,7 @@ public class MemberService {
         if(!passwordEncoder.matches(req.getUserPw(), member.getUserPw())) {
             throw new RuntimeException("wrong password");
         }
+        log.info("login :" + req.getUserId());
         String token = jwtTokenProvider.createToken(member.getUserId(), member.getUserRole());
         return TokenResDto.builder()
                 .msg("로그인 성공")

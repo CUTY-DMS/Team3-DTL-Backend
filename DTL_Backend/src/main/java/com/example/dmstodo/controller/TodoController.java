@@ -21,7 +21,6 @@ public class TodoController {
 
     @PostMapping
     private TodoResDto makeTodo(@RequestBody TodoReqDto req, Principal principal){
-        System.out.println(principal.getName() + req.getContents());
         return todoService.makeTodo(req, principal.getName());
     }
 

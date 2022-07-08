@@ -8,6 +8,7 @@ import com.example.dmstodo.domain.ToDoRepostiory;
 import com.example.dmstodo.domain.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -32,6 +35,7 @@ public class TodoService {
                         .isSuccess(false)
                         .build()
         );
+        log.info("todo 추가: " + req.getTitle());
         return TodoResDto.builder()
                 .msg("Todo이름 : " + req.getTitle() + "db추가 완료")
                 .build();

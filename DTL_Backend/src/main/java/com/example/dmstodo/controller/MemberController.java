@@ -23,7 +23,6 @@ public class MemberController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
     public MemberResDto signup(@Valid @RequestBody MemberSignUpDto req){
-        System.out.println(req.getUserPw() + " " + req.getUserId());
         return memberService.signup(req);
     }
     @PostMapping("/signin")
