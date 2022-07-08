@@ -40,6 +40,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     @JsonBackReference
-    private List<Todo> todos;
+    private List<Todo> todos = new ArrayList<>();
 
 }

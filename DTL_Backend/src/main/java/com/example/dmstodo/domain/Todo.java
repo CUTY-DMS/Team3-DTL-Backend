@@ -1,11 +1,13 @@
 package com.example.dmstodo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -20,7 +22,10 @@ public class Todo {
 
     private String title;
 
+    private Date createdAt;
+
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "member_id")
     private Member member;
 }

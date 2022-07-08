@@ -9,7 +9,7 @@ import com.example.dmstodo.exception.TodoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +34,9 @@ public class TodoService {
 
     public Todo getPost(String todoId) {
         return toDoRepostiory.findByTitle(todoId).orElseThrow(TodoNotFoundException::new);
+    }
+
+    public List<Todo> getAllPosts(){
+        return toDoRepostiory.findAll();
     }
 }

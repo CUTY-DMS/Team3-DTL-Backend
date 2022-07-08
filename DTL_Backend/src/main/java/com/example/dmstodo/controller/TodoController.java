@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -26,5 +27,10 @@ public class TodoController {
     @GetMapping
     public Todo getPost(@RequestParam String todoName){
         return todoService.getPost(todoName);
+    }
+
+    @GetMapping("/main")
+    public List<Todo> getAllPosts(){
+        return todoService.getAllPosts();
     }
 }
