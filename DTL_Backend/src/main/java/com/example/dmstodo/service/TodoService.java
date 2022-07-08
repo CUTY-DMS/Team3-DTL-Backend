@@ -46,7 +46,7 @@ public class TodoService {
     }
 
     public List<FindAllTodoRes> getAllPosts(){
-        return toDoRepostiory.findAll()
+        return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
                         .id(a.getId())
                         .title(a.getTitle())

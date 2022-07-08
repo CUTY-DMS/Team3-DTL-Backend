@@ -1,5 +1,6 @@
 package com.example.dmstodo.controller.dto.res;
 
+import com.example.dmstodo.controller.MemberTodo;
 import com.example.dmstodo.domain.Todo;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +16,5 @@ public class MyPageResDto {
     private final String userId;
     private final int userAge;
 
-    private final List<Todo> todos;
+    private final List<MemberTodo> todos;
 }
