@@ -1,15 +1,17 @@
 package com.example.dmstodo.controller.dto.req;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class MemberSignInDto {
     @NotBlank
-    private final String userId;
+    private String userId;
     @NotBlank
-    private final String userPw;
+    private String userPw;
 }
