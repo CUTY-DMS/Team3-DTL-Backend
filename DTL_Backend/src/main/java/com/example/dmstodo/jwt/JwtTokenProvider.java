@@ -1,5 +1,6 @@
 package com.example.dmstodo.jwt;
 
+import com.example.dmstodo.domain.Roles;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +31,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userPk, List<String> roles) { //Jwt 토큰 생성성
+    public String createToken(String userPk, Roles roles) { //Jwt 토큰 생성성
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         Date now = new Date();

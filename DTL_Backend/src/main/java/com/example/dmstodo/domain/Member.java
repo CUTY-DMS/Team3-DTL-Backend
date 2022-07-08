@@ -34,9 +34,8 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String userPw;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> userRoles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Roles userRole;
 
     @OneToMany(mappedBy = "member")
     @JsonBackReference

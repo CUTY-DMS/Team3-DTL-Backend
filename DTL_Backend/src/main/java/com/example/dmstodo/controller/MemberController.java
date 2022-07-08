@@ -9,9 +9,9 @@ import com.example.dmstodo.controller.dto.res.MyPageResDto;
 import com.example.dmstodo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -21,7 +21,7 @@ public class MemberController {
     private final MemberService memberService;
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public MemberResDto signup(@Validated @RequestBody MemberSignUpDto req){
+    public MemberResDto signup(@Valid @RequestBody MemberSignUpDto req){
         System.out.println(req.getUserPw() + " " + req.getUserId());
         return memberService.signup(req);
     }
