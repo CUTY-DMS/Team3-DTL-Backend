@@ -36,7 +36,7 @@ public class TodoService {
         return toDoRepostiory.findByTitle(todoId).orElseThrow(TodoNotFoundException::new);
     }
 
-    public List<Todo> getAllPosts(){
+    public Object getAllPosts(){
         return toDoRepostiory.findAll();
     }
 }

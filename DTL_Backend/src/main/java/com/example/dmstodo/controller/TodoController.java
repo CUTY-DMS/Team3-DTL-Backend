@@ -30,7 +30,7 @@ public class TodoController {
     }
 
     @GetMapping("/main")
-    public List<Todo> getAllPosts(){
+    public Object getAllPosts(){
         return todoService.getAllPosts();
     }
 }
