@@ -1,6 +1,7 @@
 package com.example.dmstodo.service;
 
 import com.example.dmstodo.controller.dto.req.TodoReqDto;
+import com.example.dmstodo.controller.dto.res.FindAllTodoRes;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.MemberRepository;
 import com.example.dmstodo.domain.ToDoRepostiory;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +39,15 @@ public class TodoService {
         return toDoRepostiory.findByTitle(todoId).orElseThrow(TodoNotFoundException::new);
     }
 
-    public Object getAllPosts(){
-        return toDoRepostiory.findAll();
+    public List<FindAllTodoRes> getAllPosts(){
+        return toDoRepostiory.findAll()
+                .stream().map(a -> FindAllTodoRes.builder()
+                        .id(a.getId())
+                        .title(a.getTitle())
+                        .contents(a.getContents())
+                        .createdAt(a.getCreatedAt())
+                        .memberId(a.getMember().getUserId())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

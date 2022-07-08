@@ -2,6 +2,7 @@ package com.example.dmstodo.controller;
 
 
 import com.example.dmstodo.controller.dto.req.TodoReqDto;
+import com.example.dmstodo.controller.dto.res.FindAllTodoRes;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.Todo;
 import com.example.dmstodo.service.TodoService;
@@ -30,7 +31,7 @@ public class TodoController {
     }
 
     @GetMapping("/main")
-    public Object getAllPosts(){
+    public List<FindAllTodoRes> getAllPosts(){
         return todoService.getAllPosts();
     }
 }
