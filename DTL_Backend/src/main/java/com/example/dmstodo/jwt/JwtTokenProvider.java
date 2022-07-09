@@ -1,6 +1,6 @@
 package com.example.dmstodo.jwt;
 
-import com.example.dmstodo.domain.Roles;
+import com.example.dmstodo.domain.member.Roles;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {

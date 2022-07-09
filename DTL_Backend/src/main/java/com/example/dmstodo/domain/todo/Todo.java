@@ -1,5 +1,6 @@
-package com.example.dmstodo.domain;
+package com.example.dmstodo.domain.todo;
 
+import com.example.dmstodo.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

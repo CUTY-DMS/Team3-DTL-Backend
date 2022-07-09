@@ -1,5 +1,6 @@
-package com.example.dmstodo.domain;
+package com.example.dmstodo.domain.todo;
 
+import com.example.dmstodo.domain.todo.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

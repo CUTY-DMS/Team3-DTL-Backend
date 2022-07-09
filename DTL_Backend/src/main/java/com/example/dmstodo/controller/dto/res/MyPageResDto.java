@@ -1,12 +1,10 @@
 package com.example.dmstodo.controller.dto.res;
 
 import com.example.dmstodo.controller.MemberTodo;
-import com.example.dmstodo.domain.Todo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
