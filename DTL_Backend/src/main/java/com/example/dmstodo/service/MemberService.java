@@ -7,20 +7,18 @@ import com.example.dmstodo.controller.dto.req.MemberSignInDto;
 import com.example.dmstodo.controller.dto.req.MemberSignUpDto;
 import com.example.dmstodo.controller.dto.res.MyPageResDto;
 import com.example.dmstodo.controller.dto.res.TokenResDto;
-import com.example.dmstodo.domain.Member;
-import com.example.dmstodo.domain.MemberRepository;
-import com.example.dmstodo.domain.Roles;
+import com.example.dmstodo.domain.member.Member;
+import com.example.dmstodo.domain.member.MemberRepository;
+import com.example.dmstodo.domain.member.Roles;
 import com.example.dmstodo.exception.UserAlreadyExistsExeption;
 import com.example.dmstodo.exception.UserNotFoundException;
 import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
