@@ -4,10 +4,12 @@ spring:
       ddl-auto: update
     database: mysql
   datasource:
-    username: root
+    username: admin
     password: 11111111
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dmsTodo?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://my-study-instanse.ciokf3otw2lm.ap-northeast-2.rds.amazonaws.com:3306/my_study_rds?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+
   jackson:
     property-naming-strategy  : SNAKE_CASE
-
+server:
+  port: 9090
