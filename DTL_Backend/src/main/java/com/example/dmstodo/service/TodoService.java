@@ -54,6 +54,7 @@ public class TodoService {
                         .title(a.getTitle())
                         .contents(a.getContents())
                         .createdAt(a.getCreatedAt())
+                        .isSuccess(a.isSuccess())
                         .memberId(a.getMember().getUserId())
                         .build())
                 .collect(Collectors.toList());
@@ -75,5 +76,12 @@ public class TodoService {
                 .content(todo.getContents())
                 .userName(member.getUserName())
                 .build();
+    }
+
+    public void toSuccess(Long id){
+        Todo todo = toDoRepostiory.findById(id)
+                .orElseThrow(TodoNotFoundException :: new);
+        todo.setSuccess(true);
+        toDoRepostiory.save(todo);
     }
 }

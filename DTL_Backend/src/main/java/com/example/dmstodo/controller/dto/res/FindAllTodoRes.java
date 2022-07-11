@@ -16,4 +16,5 @@ public class FindAllTodoRes {
     private final String title;
     private final LocalDate createdAt;
     private final String memberId;
+    private final boolean isSuccess;
 }

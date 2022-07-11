@@ -45,4 +45,9 @@ public class MemberController {
     public String deleteTodo(@PathVariable Long productId){
         return todoService.deleteTodo(productId);
     }
+
+    @PatchMapping("/my/{productId}")
+    public void changeTodo(@PathVariable Long productId){
+        todoService.toSuccess(productId);
+    }
 }

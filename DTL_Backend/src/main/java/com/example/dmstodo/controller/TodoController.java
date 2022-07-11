@@ -34,7 +34,6 @@ public class TodoController {
     public List<FindAllTodoRes> getAllPosts(){
         return todoService.getAllPosts();
     }
-
     @GetMapping("/{todoId}")
     public FindOneTodoResDto getTodo(@PathVariable Long todoId){
         return todoService.getTodo(todoId);
