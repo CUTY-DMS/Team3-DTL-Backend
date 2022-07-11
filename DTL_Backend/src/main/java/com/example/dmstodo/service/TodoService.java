@@ -2,11 +2,14 @@ package com.example.dmstodo.service;
 
 import com.example.dmstodo.controller.dto.req.TodoReqDto;
 import com.example.dmstodo.controller.dto.res.FindAllTodoRes;
+import com.example.dmstodo.controller.dto.res.FindOneTodoResDto;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
+import com.example.dmstodo.domain.member.Member;
 import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;
+import com.example.dmstodo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,5 +63,17 @@ public class TodoService {
         String res = "todo삭제 완료 : " + toDoRepostiory.findById(id).get().getTitle();
         toDoRepostiory.deleteById(id);
         return res;
+    }
+
+    public FindOneTodoResDto getTodo(Long id){
+        Todo todo = toDoRepostiory.findById(id)
+                .orElseThrow(TodoNotFoundException :: new);
+        Member member = memberRepository.findByUserId(todo.getMember().getUserId())
+                .orElseThrow(UserNotFoundException::new);
+        return FindOneTodoResDto.builder()
+                .title(todo.getTitle())
+                .content(todo.getContents())
+                .userName(member.getUserName())
+                .build();
     }
 }

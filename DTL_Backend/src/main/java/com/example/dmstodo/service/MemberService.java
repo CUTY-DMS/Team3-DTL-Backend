@@ -67,6 +67,7 @@ public class MemberService {
 
         List<MemberTodo> memberTodos = member.getTodos().stream()
                 .map(todo -> MemberTodo.builder()
+                        .id(todo.getId())
                         .title(todo.getTitle())
                         .content(todo.getContents())
                         .createdAt(todo.getCreatedAt())
