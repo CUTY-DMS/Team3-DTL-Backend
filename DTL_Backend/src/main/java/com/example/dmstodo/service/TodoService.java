@@ -55,4 +55,10 @@ public class TodoService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public String deleteTodo(Long id){
+        String res = "todo삭제 완료 : " + toDoRepostiory.findById(id).get().getTitle();
+        toDoRepostiory.deleteById(id);
+        return res;
+    }
 }
