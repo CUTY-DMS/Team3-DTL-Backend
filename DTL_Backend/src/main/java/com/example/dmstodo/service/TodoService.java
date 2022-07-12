@@ -8,6 +8,7 @@ import com.example.dmstodo.domain.member.Member;
 import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
+import com.example.dmstodo.exception.AccessDeniedException;
 import com.example.dmstodo.exception.TodoNotFoundException;
 import com.example.dmstodo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,13 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    public String deleteTodo(Long id){
-        String res = "todo삭제 완료 : " + toDoRepostiory.findById(id).get().getTitle();
+    public String deleteTodo(Long id, String uid){
+        Todo todo = toDoRepostiory.findById(id)
+                .orElseThrow(TodoNotFoundException :: new);
+        if(!todo.getMember().getUserId().equals(uid)){
+            throw new AccessDeniedException();
+        }
+        String res = "todo삭제 완료 : " + todo.getTitle();
         toDoRepostiory.deleteById(id);
         return res;
     }
@@ -71,13 +77,30 @@ public class TodoService {
                 .title(todo.getTitle())
                 .content(todo.getContents())
                 .userName(member.getUserName())
+                .createdAt(todo.getCreatedAt())
+                .isSuccess(todo.isSuccess())
                 .build();
     }
 
-    public void toSuccess(Long id){
+    public void toSuccess(Long id, String uid){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
+        if(!todo.getMember().getUserId().equals(uid)){
+            throw new AccessDeniedException();
+        }
         todo.setSuccess(true);
         toDoRepostiory.save(todo);
+    }
+
+    public String changeTodo(Long id, TodoReqDto req, String uid){
+        Todo todo = toDoRepostiory.findById(id)
+                .orElseThrow(TodoNotFoundException :: new);
+        if(!todo.getMember().getUserId().equals(uid)){
+            throw new AccessDeniedException();
+        }
+        todo.setTitle(req.getTitle());
+        todo.setContents(req.getContents());
+        toDoRepostiory.save(todo);
+        return "todo 변경 완료";
     }
 }
