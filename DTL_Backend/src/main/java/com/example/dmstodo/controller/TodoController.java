@@ -24,12 +24,6 @@ public class TodoController {
     private TodoResDto makeTodo(@RequestBody TodoReqDto req, Principal principal){
         return todoService.makeTodo(req, principal.getName());
     }
-
-    @GetMapping
-    public Todo getPost(@RequestParam String todoName){
-        return todoService.getPost(todoName);
-    }
-
     @GetMapping("/main")
     public List<FindAllTodoRes> getAllPosts(){
         return todoService.getAllPosts();

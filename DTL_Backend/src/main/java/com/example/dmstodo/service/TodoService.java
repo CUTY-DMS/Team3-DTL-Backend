@@ -43,10 +43,6 @@ public class TodoService {
                 .build();
     }
 
-    public Todo getPost(String todoId) {
-        return toDoRepostiory.findByTitle(todoId).orElseThrow(TodoNotFoundException::new);
-    }
-
     public List<FindAllTodoRes> getAllPosts(){
         return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
