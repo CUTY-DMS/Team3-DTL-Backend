@@ -10,6 +10,7 @@ import com.example.dmstodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    private TodoResDto makeTodo(@RequestBody TodoReqDto req, Principal principal){
+    private TodoResDto makeTodo(@Valid @RequestBody TodoReqDto req, Principal principal){
         return todoService.makeTodo(req, principal.getName());
     }
     @GetMapping("/main")
