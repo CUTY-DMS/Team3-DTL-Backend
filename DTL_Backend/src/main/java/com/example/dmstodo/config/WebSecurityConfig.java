@@ -1,5 +1,6 @@
 package com.example.dmstodo.config;
 
+import com.example.dmstodo.error.AuthenticationExceptionHandler;
 import com.example.dmstodo.jwt.JwtAuthenticationFilter;
 import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationExceptionHandler())
                 .and()
                 .addFilterBefore( new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
