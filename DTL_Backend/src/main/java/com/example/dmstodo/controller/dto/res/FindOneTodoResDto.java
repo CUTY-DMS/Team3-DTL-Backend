@@ -13,5 +13,6 @@ public class FindOneTodoResDto {
     private final String content;
     private final String userName;
     private final boolean isSuccess;
+    private final int likeCount;
     private final LocalDate createdAt;
 }

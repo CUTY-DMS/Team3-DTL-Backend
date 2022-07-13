@@ -12,9 +12,11 @@ import java.util.Date;
 @Builder @Getter
 public class FindAllTodoRes {
     private final Long id;
-    private final String contents;
+    private final String content;
     private final String title;
     private final LocalDate createdAt;
     private final String memberId;
     private final boolean isSuccess;
+    private final int likeCount;
+    private final boolean isLiked;
 }

@@ -23,6 +23,8 @@ public class Todo {
     private LocalDate createdAt;
 
     private boolean isSuccess;
+
+    private int likeCount;
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "member_id")

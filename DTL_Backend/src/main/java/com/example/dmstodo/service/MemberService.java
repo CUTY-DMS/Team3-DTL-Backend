@@ -71,6 +71,7 @@ public class MemberService {
                         .title(todo.getTitle())
                         .content(todo.getContents())
                         .createdAt(todo.getCreatedAt())
+                        .isSuccess(todo.isSuccess())
                         .build())
                 .collect(Collectors.toList());
 

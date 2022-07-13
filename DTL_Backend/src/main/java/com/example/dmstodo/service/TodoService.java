@@ -4,15 +4,18 @@ import com.example.dmstodo.controller.dto.req.TodoReqDto;
 import com.example.dmstodo.controller.dto.res.FindAllTodoRes;
 import com.example.dmstodo.controller.dto.res.FindOneTodoResDto;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
+import com.example.dmstodo.domain.like.HeartRepository;
 import com.example.dmstodo.domain.member.Member;
 import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
-import com.example.dmstodo.exception.AccessDeniedException;
 import com.example.dmstodo.exception.TodoNotFoundException;
+import com.example.dmstodo.exception.TokenInvalidException;
 import com.example.dmstodo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,13 +29,15 @@ import java.util.stream.Collectors;
 public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
     private final MemberRepository memberRepository;
+    private final HeartRepository heartRepository;
     public TodoResDto makeTodo(TodoReqDto req, String userId) {
         toDoRepostiory.save(
                 Todo.builder()
                         .title(req.getTitle())
-                        .contents(req.getContents())
+                        .contents(req.getContent())
+                        .likeCount(0)
                         .member(memberRepository.findByUserId(userId).orElseThrow(
-                                RuntimeException::new
+                                UserNotFoundException::new
                         ))
                         .createdAt(LocalDate.now())
                         .isSuccess(false)
@@ -45,25 +50,26 @@ public class TodoService {
     }
 
     public List<FindAllTodoRes> getAllPosts(){
+        String uid = currentUserId();
         return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
                         .id(a.getId())
+                        .isLiked(heartRepository.findHeartByMemberAndTodoId(
+                                memberRepository.findByUserId(uid)
+                                        .orElseThrow(UserNotFoundException::new),
+                                a.getId()).isPresent())
                         .title(a.getTitle())
-                        .contents(a.getContents())
+                        .content(a.getContents())
                         .createdAt(a.getCreatedAt())
                         .isSuccess(a.isSuccess())
+                        .likeCount(a.getLikeCount())
                         .memberId(a.getMember().getUserId())
                         .build())
                 .collect(Collectors.toList());
     }
 
-    public String deleteTodo(Long id, String uid){
-        Todo todo = toDoRepostiory.findById(id)
-                .orElseThrow(TodoNotFoundException :: new);
-        if(!todo.getMember().getUserId().equals(uid)){
-            throw new AccessDeniedException();
-        }
-        String res = "todo삭제 완료 : " + todo.getTitle();
+    public String deleteTodo(Long id){
+        String res = "todo삭제 완료 ";
         toDoRepostiory.deleteById(id);
         return res;
     }
@@ -78,29 +84,33 @@ public class TodoService {
                 .content(todo.getContents())
                 .userName(member.getUserName())
                 .createdAt(todo.getCreatedAt())
+                .likeCount(todo.getLikeCount())
                 .isSuccess(todo.isSuccess())
                 .build();
     }
 
-    public void toSuccess(Long id, String uid){
+    public void toSuccess(Long id){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
-        if(!todo.getMember().getUserId().equals(uid)){
-            throw new AccessDeniedException();
-        }
-        todo.setSuccess(true);
+        todo.setSuccess(!todo.isSuccess());
         toDoRepostiory.save(todo);
     }
 
-    public String changeTodo(Long id, TodoReqDto req, String uid){
+    public String changeTodo(Long id, TodoReqDto req){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
-        if(!todo.getMember().getUserId().equals(uid)){
-            throw new AccessDeniedException();
-        }
         todo.setTitle(req.getTitle());
-        todo.setContents(req.getContents());
+        todo.setContents(req.getContent());
         toDoRepostiory.save(todo);
         return "todo 변경 완료";
+    }
+
+    public String currentUserId(){
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null){
+            throw new TokenInvalidException();
+        }
+        return memberRepository.findByUserId(((UserDetails) user).getUsername())
+                .orElseThrow(UserNotFoundException::new).getUserId();
     }
 }
