@@ -13,4 +13,6 @@ public class MemberTodo {
     private final String title;
     private final String content;
     private final LocalDate createdAt;
+    private final int likeCount;
+    private final boolean isSuccess;
 }

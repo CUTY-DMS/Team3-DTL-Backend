@@ -6,7 +6,6 @@ import com.example.dmstodo.domain.member.Member;
 import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
-import com.example.dmstodo.exception.AlreadyLikedException;
 import com.example.dmstodo.exception.TodoNotFoundException;
 import com.example.dmstodo.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +42,7 @@ public class LikeService {
         Todo todo = toDoRepostiory.findById(todoId)
                 .orElseThrow(TodoNotFoundException::new);
         todo.setLikeCount(todo.getLikeCount()-1);
+        toDoRepostiory.save(todo);
         return "좋아요 취소됨";
     }
     public Optional<Heart> findHeartWithUserAndTodoId(String uid, Long todoId){

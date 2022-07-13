@@ -17,6 +17,6 @@ public class FindAllTodoRes {
     private final LocalDate createdAt;
     private final String memberId;
     private final boolean isSuccess;
-    private final int likeCount;
-    private final boolean isLiked;
+    private final int likeCount;/*
+    private final boolean isLiked;*/
 }

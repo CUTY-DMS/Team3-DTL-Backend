@@ -14,5 +14,6 @@ public class FindOneTodoResDto {
     private final String userName;
     private final boolean isSuccess;
     private final int likeCount;
+    private final boolean isLiked;
     private final LocalDate createdAt;
 }
