@@ -10,12 +10,10 @@ import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;
-import com.example.dmstodo.exception.TokenInvalidException;
 import com.example.dmstodo.exception.UserNotFoundException;
+import com.example.dmstodo.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,13 +28,15 @@ public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
     private final MemberRepository memberRepository;
     private final HeartRepository heartRepository;
-    public TodoResDto makeTodo(TodoReqDto req, String userId) {
+    private final UserFacade userFacade;
+    public TodoResDto makeTodo(TodoReqDto req) {
+        Member member = userFacade.currentUser();
         toDoRepostiory.save(
                 Todo.builder()
                         .title(req.getTitle())
                         .contents(req.getContent())
                         .likeCount(0)
-                        .member(memberRepository.findByUserId(userId).orElseThrow(
+                        .member(memberRepository.findByUserId(member.getUserId()).orElseThrow(
                                 UserNotFoundException::new
                         ))
                         .createdAt(LocalDate.now())
@@ -74,11 +74,10 @@ public class TodoService {
         return res;
     }
 
-    public FindOneTodoResDto getTodo(Long id, String uid){
+    public FindOneTodoResDto getTodo(Long id){
+        Member member = userFacade.currentUser();
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
-        Member member = memberRepository.findByUserId(todo.getMember().getUserId())
-                .orElseThrow(UserNotFoundException::new);
         return FindOneTodoResDto.builder()
                 .title(todo.getTitle())
                 .content(todo.getContents())
@@ -86,7 +85,7 @@ public class TodoService {
                 .createdAt(todo.getCreatedAt())
                 .likeCount(todo.getLikeCount())
                 .isLiked(heartRepository.findHeartByMemberAndTodoId(
-                        memberRepository.findByUserId(uid)
+                        memberRepository.findByUserId(member.getUserId())
                                 .orElseThrow(UserNotFoundException::new)
                         , id).isPresent())
                 .isSuccess(todo.isSuccess())

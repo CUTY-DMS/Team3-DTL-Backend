@@ -12,6 +12,8 @@ import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.member.Roles;
 import com.example.dmstodo.exception.UserAlreadyExistsExeption;
 import com.example.dmstodo.exception.UserNotFoundException;
+import com.example.dmstodo.exception.WrongPasswordException;
+import com.example.dmstodo.facade.UserFacade;
 import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserFacade userFacade;
     public MemberResDto signup(MemberSignUpDto req) {
         if(memberRepository.existsByUserId(req.getUserId())){
             throw new UserAlreadyExistsExeption();
@@ -51,7 +54,7 @@ public class MemberService {
         Member member = memberRepository.findByUserId(req.getUserId())
                 .orElseThrow(UserNotFoundException::new);
         if(!passwordEncoder.matches(req.getUserPw(), member.getUserPw())) {
-            throw new RuntimeException("wrong password");
+            throw new WrongPasswordException();
         }
         log.info("login :" + req.getUserId());
         String token = jwtTokenProvider.createToken(member.getUserId(), member.getUserRole());
@@ -61,9 +64,8 @@ public class MemberService {
                 .build();
     }
 
-    public MyPageResDto findMember(String memberId) {
-        Member member = memberRepository.findByUserId(memberId)
-                .orElseThrow(UserNotFoundException::new);
+    public MyPageResDto findMember() {
+        Member member = userFacade.currentUser();
 
         List<MemberTodo> memberTodos = member.getTodos().stream()
                 .map(todo -> MemberTodo.builder()
@@ -77,7 +79,7 @@ public class MemberService {
                 .collect(Collectors.toList());
 
         return MyPageResDto.builder()
-                .userId(memberId)
+                .userId(member.getUserId())
                 .userAge(member.getUserAge())
                 .userName(member.getUserName())
                 .todos(memberTodos)

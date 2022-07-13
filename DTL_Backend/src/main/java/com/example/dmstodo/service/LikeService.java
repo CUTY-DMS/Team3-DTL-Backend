@@ -1,5 +1,6 @@
 package com.example.dmstodo.service;
 
+import com.example.dmstodo.controller.dto.res.TodoLikeResDto;
 import com.example.dmstodo.domain.like.Heart;
 import com.example.dmstodo.domain.like.HeartRepository;
 import com.example.dmstodo.domain.member.Member;
@@ -8,6 +9,7 @@ import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;
 import com.example.dmstodo.exception.UserNotFoundException;
+import com.example.dmstodo.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,15 @@ public class LikeService {
     private final HeartRepository heartRepository;
     private final MemberRepository memberRepository;
     private final ToDoRepostiory toDoRepostiory;
-    public String liked(Long todoId, String uid){
-        if(findHeartWithUserAndTodoId(uid, todoId).isPresent()){
-            return unlike(todoId, uid);
+    private final UserFacade userFacade;
+    public TodoLikeResDto liked(Long todoId){
+        Member member = userFacade.currentUser();
+        if(findHeartWithUserAndTodoId(member.getUserId(), todoId).isPresent()){
+            return unlike(todoId, member.getUserId());
         }
-        return like(todoId, uid);
+        return like(todoId, member.getUserId());
     }
-    public String like(Long todoId, String uid){
+    public TodoLikeResDto like(Long todoId, String uid){
         Heart heart = Heart.builder()
                 .todoId(todoId)
                 .member(memberRepository.findByUserId(uid).get())
@@ -35,15 +39,21 @@ public class LikeService {
                 .orElseThrow(TodoNotFoundException::new);
         todo.setLikeCount(todo.getLikeCount()+1);
         toDoRepostiory.save(todo);
-        return "좋아요 표시 성공";
+        return TodoLikeResDto.builder()
+                .likeCount(todo.getLikeCount())
+                .isLiked(findHeartWithUserAndTodoId(uid, todoId).isPresent())
+                .build();
     }
-    public String unlike(Long todoId, String uid){
+    public TodoLikeResDto unlike(Long todoId, String uid){
         heartRepository.deleteById(findHeartWithUserAndTodoId(uid, todoId).get().getId());
         Todo todo = toDoRepostiory.findById(todoId)
                 .orElseThrow(TodoNotFoundException::new);
         todo.setLikeCount(todo.getLikeCount()-1);
         toDoRepostiory.save(todo);
-        return "좋아요 취소됨";
+        return TodoLikeResDto.builder()
+                .likeCount(todo.getLikeCount())
+                .isLiked(findHeartWithUserAndTodoId(uid, todoId).isPresent())
+                .build();
     }
     public Optional<Heart> findHeartWithUserAndTodoId(String uid, Long todoId){
         Member member = memberRepository.findByUserId(uid)
