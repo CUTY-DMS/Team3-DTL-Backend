@@ -6,6 +6,7 @@ import com.example.dmstodo.controller.dto.res.FindAllTodoRes;
 import com.example.dmstodo.controller.dto.res.FindOneTodoResDto;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.todo.Todo;
+import com.example.dmstodo.exception.TokenInvalidException;
 import com.example.dmstodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class TodoController {
 
     @PostMapping
     private TodoResDto makeTodo(@Valid @RequestBody TodoReqDto req, Principal principal){
+        if(principal == null){
+            throw new TokenInvalidException();
+        }
         return todoService.makeTodo(req, principal.getName());
     }
     @GetMapping("/main")
@@ -30,7 +34,10 @@ public class TodoController {
         return todoService.getAllPosts();
     }
     @GetMapping("/{todoId}")
-    public FindOneTodoResDto getTodo(@PathVariable Long todoId){
-        return todoService.getTodo(todoId);
+    public FindOneTodoResDto getTodo(@PathVariable Long todoId, Principal principal){
+        if(principal == null){
+            throw new TokenInvalidException();
+        }
+        return todoService.getTodo(todoId, principal.getName());
     }
 }

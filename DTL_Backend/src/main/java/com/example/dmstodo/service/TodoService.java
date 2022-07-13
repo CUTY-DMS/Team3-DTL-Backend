@@ -50,14 +50,14 @@ public class TodoService {
     }
 
     public List<FindAllTodoRes> getAllPosts(){
-        String uid = currentUserId();
+        /*String uid = currentUserId();*/
         return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
                         .id(a.getId())
-                        .isLiked(heartRepository.findHeartByMemberAndTodoId(
+                        /*.isLiked(heartRepository.findHeartByMemberAndTodoId(
                                 memberRepository.findByUserId(uid)
                                         .orElseThrow(UserNotFoundException::new),
-                                a.getId()).isPresent())
+                                a.getId()).isPresent())*/
                         .title(a.getTitle())
                         .content(a.getContents())
                         .createdAt(a.getCreatedAt())
@@ -74,7 +74,7 @@ public class TodoService {
         return res;
     }
 
-    public FindOneTodoResDto getTodo(Long id){
+    public FindOneTodoResDto getTodo(Long id, String uid){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
         Member member = memberRepository.findByUserId(todo.getMember().getUserId())
@@ -85,6 +85,10 @@ public class TodoService {
                 .userName(member.getUserName())
                 .createdAt(todo.getCreatedAt())
                 .likeCount(todo.getLikeCount())
+                .isLiked(heartRepository.findHeartByMemberAndTodoId(
+                        memberRepository.findByUserId(uid)
+                                .orElseThrow(UserNotFoundException::new)
+                        , id).isPresent())
                 .isSuccess(todo.isSuccess())
                 .build();
     }
@@ -103,14 +107,5 @@ public class TodoService {
         todo.setContents(req.getContent());
         toDoRepostiory.save(todo);
         return "todo 변경 완료";
-    }
-
-    public String currentUserId(){
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null){
-            throw new TokenInvalidException();
-        }
-        return memberRepository.findByUserId(((UserDetails) user).getUsername())
-                .orElseThrow(UserNotFoundException::new).getUserId();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.dmstodo.config;
 
-import com.example.dmstodo.error.AuthenticationExceptionHandler;
 import com.example.dmstodo.jwt.JwtAuthenticationFilter;
 import com.example.dmstodo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new AuthenticationExceptionHandler())
                 .and()
                 .addFilterBefore( new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
