@@ -11,7 +11,9 @@ public enum ErrorCode {
     TODO_NOT_FOUND(404, "Todo not exists"),
     CANNOT_ACCESS(403, "변경 권한이 없습니다."),
     CANNOT_VALIDATE(404, "토큰이 유효하지 않거나 없습니다."),
-    ALREADY_LIKED(409, "이미 좋아요를 눌렀습니다.")
+    ALREADY_LIKED(409, "이미 좋아요를 눌렀습니다."),
+
+    WRONG_PASSWORD(401, "잘못된 비밀번호 입니다.")
 
     ;
     private final Integer status;
