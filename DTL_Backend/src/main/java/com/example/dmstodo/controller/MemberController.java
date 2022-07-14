@@ -35,11 +35,8 @@ public class MemberController {
     }
     @GetMapping("/my")
     @ResponseBody
-    public MyPageResDto myPage(Principal principal){
-        if(principal == null){
-            throw new TokenInvalidException();
-        }
-        return memberService.findMember(principal.getName());
+    public MyPageResDto myPage(){
+        return memberService.findMember();
     }
     @GetMapping("/admin")
     public Object findAllUsers() {

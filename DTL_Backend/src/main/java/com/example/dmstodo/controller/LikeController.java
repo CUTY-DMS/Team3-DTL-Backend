@@ -1,5 +1,6 @@
 package com.example.dmstodo.controller;
 
+import com.example.dmstodo.controller.dto.res.TodoLikeResDto;
 import com.example.dmstodo.exception.TokenInvalidException;
 import com.example.dmstodo.service.LikeService;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,8 @@ import java.security.Principal;
 @RequestMapping("/post/main/like")
 public class LikeController {
     private final LikeService likeService;
-    @PostMapping("/{todoId}")
-    public String liked(@PathVariable Long todoId, Principal principal){
-        if(principal == null){
-            throw new TokenInvalidException();
-        }
-        return likeService.liked(todoId, principal.getName());
+    @GetMapping("/{todoId}")
+    public TodoLikeResDto liked(@PathVariable Long todoId){
+        return likeService.liked(todoId);
     }
 }

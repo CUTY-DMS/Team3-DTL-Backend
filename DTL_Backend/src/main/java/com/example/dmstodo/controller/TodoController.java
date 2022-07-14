@@ -23,21 +23,15 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    private TodoResDto makeTodo(@Valid @RequestBody TodoReqDto req, Principal principal){
-        if(principal == null){
-            throw new TokenInvalidException();
-        }
-        return todoService.makeTodo(req, principal.getName());
+    private TodoResDto makeTodo(@Valid @RequestBody TodoReqDto req){
+        return todoService.makeTodo(req);
     }
     @GetMapping("/main")
     public List<FindAllTodoRes> getAllPosts(){
         return todoService.getAllPosts();
     }
     @GetMapping("/{todoId}")
-    public FindOneTodoResDto getTodo(@PathVariable Long todoId, Principal principal){
-        if(principal == null){
-            throw new TokenInvalidException();
-        }
-        return todoService.getTodo(todoId, principal.getName());
+    public FindOneTodoResDto getTodo(@PathVariable Long todoId){
+        return todoService.getTodo(todoId);
     }
 }
