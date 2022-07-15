@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
     Optional<Heart> findHeartByMemberAndTodoId(Member member, Long todoId);
+
+    boolean existsByMemberAndTodoId(Member member, Long todoId);
 }

@@ -1,7 +1,7 @@
 package com.example.dmstodo.service;
 
 
-import com.example.dmstodo.controller.MemberTodo;
+import com.example.dmstodo.controller.dto.res.MemberTodo;
 import com.example.dmstodo.controller.dto.res.MemberResDto;
 import com.example.dmstodo.controller.dto.req.MemberSignInDto;
 import com.example.dmstodo.controller.dto.req.MemberSignUpDto;

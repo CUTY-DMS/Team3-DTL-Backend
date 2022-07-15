@@ -6,11 +6,9 @@ import com.example.dmstodo.controller.dto.res.FindOneTodoResDto;
 import com.example.dmstodo.controller.dto.res.TodoResDto;
 import com.example.dmstodo.domain.like.HeartRepository;
 import com.example.dmstodo.domain.member.Member;
-import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;
-import com.example.dmstodo.exception.UserNotFoundException;
 import com.example.dmstodo.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
-    private final MemberRepository memberRepository;
     private final HeartRepository heartRepository;
     private final UserFacade userFacade;
     public TodoResDto makeTodo(TodoReqDto req) {
@@ -36,28 +33,22 @@ public class TodoService {
                         .title(req.getTitle())
                         .contents(req.getContent())
                         .likeCount(0)
-                        .member(memberRepository.findByUserId(member.getUserId()).orElseThrow(
-                                UserNotFoundException::new
-                        ))
+                        .member(member)
                         .createdAt(LocalDate.now())
                         .isSuccess(false)
                         .build()
         );
         log.info("todo 추가: " + req.getTitle());
         return TodoResDto.builder()
-                .msg("Todo이름 : " + req.getTitle() + "db추가 완료")
+                .msg("투두 추가 성공")
+                .title(req.getTitle())
                 .build();
     }
 
     public List<FindAllTodoRes> getAllPosts(){
-        /*String uid = currentUserId();*/
         return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
                         .id(a.getId())
-                        /*.isLiked(heartRepository.findHeartByMemberAndTodoId(
-                                memberRepository.findByUserId(uid)
-                                        .orElseThrow(UserNotFoundException::new),
-                                a.getId()).isPresent())*/
                         .title(a.getTitle())
                         .content(a.getContents())
                         .createdAt(a.getCreatedAt())
@@ -69,9 +60,8 @@ public class TodoService {
     }
 
     public String deleteTodo(Long id){
-        String res = "todo삭제 완료 ";
         toDoRepostiory.deleteById(id);
-        return res;
+        return "투두 삭제 성공";
     }
 
     public FindOneTodoResDto getTodo(Long id){
@@ -81,13 +71,10 @@ public class TodoService {
         return FindOneTodoResDto.builder()
                 .title(todo.getTitle())
                 .content(todo.getContents())
-                .userName(member.getUserName())
+                .userName(todo.getMember().getUserName())
                 .createdAt(todo.getCreatedAt())
                 .likeCount(todo.getLikeCount())
-                .isLiked(heartRepository.findHeartByMemberAndTodoId(
-                        memberRepository.findByUserId(member.getUserId())
-                                .orElseThrow(UserNotFoundException::new)
-                        , id).isPresent())
+                .isLiked(heartRepository.existsByMemberAndTodoId(member, id))
                 .isSuccess(todo.isSuccess())
                 .build();
     }
