@@ -9,4 +9,5 @@ import lombok.RequiredArgsConstructor;
 @Builder @Getter
 public class TodoResDto {
     private final String msg;
+    private final String title;
 }

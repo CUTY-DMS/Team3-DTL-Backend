@@ -1,6 +1,5 @@
 package com.example.dmstodo.controller.dto.res;
 
-import com.example.dmstodo.controller.MemberTodo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
