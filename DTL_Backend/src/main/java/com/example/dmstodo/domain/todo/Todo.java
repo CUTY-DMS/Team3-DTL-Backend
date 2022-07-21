@@ -25,8 +25,7 @@ public class Todo {
     private boolean isSuccess;
 
     private int likeCount;
-    @ManyToOne
-    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 }

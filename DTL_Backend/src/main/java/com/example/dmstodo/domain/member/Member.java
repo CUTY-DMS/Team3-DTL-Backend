@@ -36,7 +36,6 @@ public class Member {
     private Roles userRole;
 
     @OneToMany(mappedBy = "member")
-    @JsonBackReference
     private List<Todo> todos = new ArrayList<>();
 
 }
