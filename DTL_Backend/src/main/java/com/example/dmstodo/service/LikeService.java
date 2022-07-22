@@ -32,7 +32,7 @@ public class LikeService {
                 .build());
         Todo todo = toDoRepostiory.findById(todoId)
                 .orElseThrow(TodoNotFoundException::new);
-        todo.setLikeCount(todo.getLikeCount()+1);
+        todo.addLikeCount();
         toDoRepostiory.save(todo);
         return TodoLikeResDto.builder()
                 .likeCount(todo.getLikeCount())
@@ -43,7 +43,7 @@ public class LikeService {
         heartRepository.deleteById(member.getId());
         Todo todo = toDoRepostiory.findById(todoId)
                 .orElseThrow(TodoNotFoundException::new);
-        todo.setLikeCount(todo.getLikeCount()-1);
+        todo.removeLikeCount();
         toDoRepostiory.save(todo);
         return TodoLikeResDto.builder()
                 .likeCount(todo.getLikeCount())

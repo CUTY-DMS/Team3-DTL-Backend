@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Getter @Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,4 +28,11 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public void addLikeCount() {
+        this.likeCount += 1;
+    }
+    public void removeLikeCount() {
+        this.likeCount -= 1;
+    }
 }

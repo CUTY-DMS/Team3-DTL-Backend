@@ -16,8 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
