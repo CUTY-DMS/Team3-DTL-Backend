@@ -1,10 +1,7 @@
 package com.example.dmstodo.domain.like;
 
 import com.example.dmstodo.domain.member.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Heart {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

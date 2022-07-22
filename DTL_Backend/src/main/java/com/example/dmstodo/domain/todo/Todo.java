@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Todo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,5 +34,14 @@ public class Todo {
     }
     public void removeLikeCount() {
         this.likeCount -= 1;
+    }
+
+    public void toSuccess() {
+        this.isSuccess = !this.isSuccess;
+    }
+
+    public void changeTodo(String title, String content) {
+        this.title = title;
+        this.contents = content;
     }
 }
