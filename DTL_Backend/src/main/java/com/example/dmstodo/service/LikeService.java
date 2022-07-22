@@ -10,9 +10,11 @@ import com.example.dmstodo.exception.TodoNotFoundException;
 import com.example.dmstodo.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class LikeService {
     private final HeartRepository heartRepository;
     private final ToDoRepostiory toDoRepostiory;

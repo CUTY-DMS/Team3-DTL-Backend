@@ -13,6 +13,7 @@ import com.example.dmstodo.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TodoService {
     private final ToDoRepostiory toDoRepostiory;
     private final HeartRepository heartRepository;
@@ -45,6 +47,7 @@ public class TodoService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public List<FindAllTodoRes> getAllPosts(){
         return toDoRepostiory.findAllByOrderByIdDesc()
                 .stream().map(a -> FindAllTodoRes.builder()
@@ -52,7 +55,7 @@ public class TodoService {
                         .title(a.getTitle())
                         .content(a.getContents())
                         .createdAt(a.getCreatedAt())
-                        .is_success(a.isSuccess())
+                        .todoSuccess(a.isSuccess())
                         .likeCount(a.getLikeCount())
                         .memberId(a.getMember().getUserId())
                         .build())
@@ -64,6 +67,7 @@ public class TodoService {
         return "투두 삭제 성공";
     }
 
+    @Transactional(readOnly = true)
     public FindOneTodoResDto getTodo(Long id){
         Member member = userFacade.currentUser();
         Todo todo = toDoRepostiory.findById(id)
