@@ -4,7 +4,6 @@ import com.example.dmstodo.controller.dto.res.TodoLikeResDto;
 import com.example.dmstodo.domain.like.Heart;
 import com.example.dmstodo.domain.like.HeartRepository;
 import com.example.dmstodo.domain.member.Member;
-import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.todo.ToDoRepostiory;
 import com.example.dmstodo.domain.todo.Todo;
 import com.example.dmstodo.exception.TodoNotFoundException;

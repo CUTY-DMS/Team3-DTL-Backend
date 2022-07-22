@@ -52,7 +52,7 @@ public class TodoService {
                         .title(a.getTitle())
                         .content(a.getContents())
                         .createdAt(a.getCreatedAt())
-                        .isSuccess(a.isSuccess())
+                        .is_success(a.isSuccess())
                         .likeCount(a.getLikeCount())
                         .memberId(a.getMember().getUserId())
                         .build())
@@ -82,15 +82,14 @@ public class TodoService {
     public void toSuccess(Long id){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
-        todo.setSuccess(!todo.isSuccess());
+        todo.toSuccess();
         toDoRepostiory.save(todo);
     }
 
     public String changeTodo(Long id, TodoReqDto req){
         Todo todo = toDoRepostiory.findById(id)
                 .orElseThrow(TodoNotFoundException :: new);
-        todo.setTitle(req.getTitle());
-        todo.setContents(req.getContent());
+        todo.changeTodo(req.getTitle(), req.getContent());
         toDoRepostiory.save(todo);
         return "todo 변경 완료";
     }
