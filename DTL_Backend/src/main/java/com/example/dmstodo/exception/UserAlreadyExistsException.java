@@ -2,8 +2,8 @@ package com.example.dmstodo.exception;
 
 import com.example.dmstodo.error.ErrorCode;
 
-public class UserAlreadyExistsExeption extends BusinessException {
-    public UserAlreadyExistsExeption() {
+public class UserAlreadyExistsException extends BusinessException {
+    public UserAlreadyExistsException() {
         super(ErrorCode.USER_ALREADY_EXISTS);
     }
 }

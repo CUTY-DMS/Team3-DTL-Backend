@@ -41,7 +41,7 @@ public class LikeService {
                 .build();
     }
     public TodoLikeResDto unlike(Long todoId, Member member){
-        heartRepository.deleteById(member.getId());
+        heartRepository.deleteByMemberAndTodoId(member, todoId);
         Todo todo = toDoRepostiory.findById(todoId)
                 .orElseThrow(TodoNotFoundException::new);
         todo.removeLikeCount();

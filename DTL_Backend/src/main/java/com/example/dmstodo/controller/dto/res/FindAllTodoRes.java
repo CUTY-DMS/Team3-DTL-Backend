@@ -16,7 +16,7 @@ public class FindAllTodoRes {
     private final String title;
     private final LocalDate createdAt;
     private final String memberId;
-    private final boolean isSuccess;
+    private final boolean todoSuccess;
     private final int likeCount;/*
     private final boolean isLiked;*/
 }
