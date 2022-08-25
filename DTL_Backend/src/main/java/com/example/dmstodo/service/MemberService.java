@@ -10,7 +10,7 @@ import com.example.dmstodo.controller.dto.res.TokenResDto;
 import com.example.dmstodo.domain.member.Member;
 import com.example.dmstodo.domain.member.MemberRepository;
 import com.example.dmstodo.domain.member.Roles;
-import com.example.dmstodo.exception.UserAlreadyExistsExeption;
+import com.example.dmstodo.exception.UserAlreadyExistsException;
 import com.example.dmstodo.exception.UserNotFoundException;
 import com.example.dmstodo.exception.WrongPasswordException;
 import com.example.dmstodo.facade.UserFacade;
@@ -36,7 +36,7 @@ public class MemberService {
     private final UserFacade userFacade;
     public MemberResDto signup(MemberSignUpDto req) {
         if(memberRepository.existsByUserId(req.getUserId())){
-            throw new UserAlreadyExistsExeption();
+            throw new UserAlreadyExistsException();
         }
         memberRepository.save(Member.builder()
                 .userName(req.getUserName())
